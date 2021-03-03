@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface MemberImporter {
 
-	public List< Member > importMembers( File inputFile ) throws Exception;
+	public List<Member> importMembers(File inputFile) throws Exception;
 
 }

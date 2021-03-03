@@ -11,56 +11,55 @@ public abstract class MemberFileConverter {
 	/*
 	 * NOTE: Do not modify this class
 	 */
-	protected abstract MemberExporter getMemberExporter( );
+	protected abstract MemberExporter getMemberExporter();
 
-	protected abstract MemberImporter getMemberImporter( );
+	protected abstract MemberImporter getMemberImporter();
 
-	protected abstract List< Member > getNonDuplicateMembers( List< Member > membersFromFile );
+	protected abstract List<Member> getNonDuplicateMembers(List<Member> membersFromFile);
 
-	protected abstract Map< String, List< Member >> splitMembersByState( List< Member > validMembers );
+	protected abstract Map<String, List<Member>> splitMembersByState(List<Member> validMembers);
 
-	public void convert( File inputMemberFile, String outputFilePath, String outputFileName ) throws Exception {
+	public void convert(File inputMemberFile, String outputFilePath, String outputFileName) throws Exception {
 
 		/*
 		 * Read :
 		 */
-		MemberImporter memberImporter = getMemberImporter( );
-		List< Member > membersFromFile = memberImporter.importMembers( inputMemberFile );
+		MemberImporter memberImporter = getMemberImporter();
+		List<Member> membersFromFile = memberImporter.importMembers(inputMemberFile);
 
 		/*
 		 * Filter :
 		 */
 
-		List< Member > validMembers = getNonDuplicateMembers( membersFromFile );
-		Map< String, List< Member >> membersFilteredByState = splitMembersByState( validMembers );
+		List<Member> validMembers = getNonDuplicateMembers(membersFromFile);
+		Map<String, List<Member>> membersFilteredByState = splitMembersByState(validMembers);
 
 		/*
 		 * Write :
 		 */
-		for ( Map.Entry< String, List< Member >> map: membersFilteredByState.entrySet( ) ) {
-			
+		for (Map.Entry<String, List<Member>> map : membersFilteredByState.entrySet()) {
 
-			String state = map.getKey( );
-			List< Member > membersPerState = map.getValue( );
+			String state = map.getKey();
+			List<Member> membersPerState = map.getValue();
 
-			File outputFile = new File( outputFilePath + File.separator + state + "_" + outputFileName );
+			File outputFile = new File(outputFilePath + File.separator + state + "_" + outputFileName);
 
-			MemberExporter exporter = getMemberExporter( );
-			writeMembers( outputFile, exporter, membersPerState );
+			MemberExporter exporter = getMemberExporter();
+			writeMembers(outputFile, exporter, membersPerState);
 
 		}
 
 	}
 
-	private void writeMembers( File outputFile, MemberExporter exporter, List< Member > members ) throws IOException {
-		Writer writer = new FileWriter( outputFile ,true);
+	private void writeMembers(File outputFile, MemberExporter exporter, List<Member> members) throws IOException {
+		Writer writer = new FileWriter(outputFile, true);
 
-		for ( Member member: members ) {
-			exporter.writeMember( member, writer );
+		for (Member member : members) {
+			exporter.writeMember(member, writer);
 		}
 
-		writer.flush( );
-		writer.close( );
+		writer.flush();
+		writer.close();
 	}
 
 }

@@ -5,6 +5,6 @@ import java.io.Writer;
 
 public interface MemberExporter {
 
-	public void writeMember( Member member, Writer writer ) throws IOException;
+	public void writeMember(Member member, Writer writer) throws IOException;
 
 }
